@@ -1,10 +1,10 @@
 module Knavebot
   module Command
-    class UnrecognizedValueError < StandardError; end
-
     class OperatorEvalError < StandardError; end
 
     class Roll
+      include ParseHelper
+
       PRECEDENCE = {
         "+" => 1,
         "-" => 1,
@@ -27,6 +27,7 @@ module Knavebot
 
       def initialize(args)
         @args = args
+        @tallies = []
       end
 
       def self.call(*args)
@@ -34,8 +35,19 @@ module Knavebot
       end
 
       def call
-        # TODO: show results of dice rolls as well (tally)
-        evaluate
+        result = evaluate
+
+        if @tallies.empty?
+          result
+        else
+          formatted_tallies = @tallies
+            .map { |t| "(#{t.join(", ")})" }
+            .join(", ")
+
+          "#{result} #{formatted_tallies}"
+        end
+      rescue => e
+        "Couldn't evaluate roll (#{e.message})."
       end
 
       private
@@ -49,7 +61,9 @@ module Knavebot
 
             result << fn.call(*result.pop(fn.arity))
           elsif roll?(arg)
-            result << roll_value(arg)
+            bag = DiceBag.new(arg)
+            result << bag.roll
+            @tallies << bag.tally
           else
             result << int_value(arg)
           end
@@ -64,23 +78,6 @@ module Knavebot
 
       def roll?(arg)
         arg.match(/\d*d\d/i)
-      end
-
-      # TODO: Move this into a separate class w/ tally
-      def roll_value(arg)
-        n, sides = arg.split("d")
-        n = n.empty? ? 1 : int_value(n)
-        sides = int_value(sides)
-
-        n.times.inject(0) do |sum, _|
-          sum + rand(sides) + 1
-        end
-      end
-
-      def int_value(arg)
-        Integer(arg)
-      rescue ArgumentError
-        raise UnrecognizedValueError.new("did not recognize #{arg}")
       end
 
       def postfix_args

@@ -3,6 +3,8 @@ require "dotenv/load"
 
 require "knavebot/version"
 require "knavebot/bot"
+require "knavebot/parse_helper"
+require "knavebot/dice_bag"
 require "knavebot/command/roll"
 require "knavebot/command/list"
 

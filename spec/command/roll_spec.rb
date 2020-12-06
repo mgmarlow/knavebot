@@ -14,8 +14,8 @@ RSpec.describe Knavebot::Command::Roll do
   describe "arguments are compressed" do
     let(:args) { ["20+", "12"] }
 
-    it "should throw error" do
-      expect { cmd.call(args) }.to raise_error(/did not recognize 20+/)
+    it "should return error" do
+      expect(cmd.call(args)).to eq("Couldn't evaluate roll (did not recognize '20+').")
     end
   end
 
@@ -55,7 +55,7 @@ RSpec.describe Knavebot::Command::Roll do
     let(:args) { ["20", "/", "0"] }
 
     it "should calculate expression" do
-      expect { cmd.call(args) }.to raise_error(/tried to divide by zero/)
+      expect(cmd.call(args)).to eq("Couldn't evaluate roll (tried to divide by zero).")
     end
   end
 
@@ -80,7 +80,7 @@ RSpec.describe Knavebot::Command::Roll do
       let(:args) { ["12", "*", "(", "3", "+", "4"] }
 
       it "should throw error" do
-        expect { cmd.call(args) }.to raise_error(/did not recognize \(/)
+        expect(cmd.call(args)).to eq("Couldn't evaluate roll (did not recognize '(').")
       end
     end
   end
@@ -94,7 +94,7 @@ RSpec.describe Knavebot::Command::Roll do
       let(:args) { ["d20"] }
 
       it "should calculate expression" do
-        expect(cmd.call(args)).to eq(17)
+        expect(cmd.call(args)).to eq("17 (17)")
       end
     end
 
@@ -102,7 +102,15 @@ RSpec.describe Knavebot::Command::Roll do
       let(:args) { ["4d20"] }
 
       it "should calculate expression" do
-        expect(cmd.call(args)).to eq(50)
+        expect(cmd.call(args)).to eq("50 (17, 11, 2, 20)")
+      end
+    end
+
+    describe "multiple rolls with arithmetic" do
+      let(:args) { ["4d20", "+", "2d8"] }
+
+      it "should calculate expression" do
+        expect(cmd.call(args)).to eq("54 (17, 11, 2, 20), (3, 1)")
       end
     end
   end
