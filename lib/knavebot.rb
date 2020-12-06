@@ -3,6 +3,8 @@ require "dotenv/load"
 
 require "knavebot/version"
 require "knavebot/bot"
+require "knavebot/command/roll"
+require "knavebot/command/list"
 
 module Knavebot
   class Error < StandardError; end
