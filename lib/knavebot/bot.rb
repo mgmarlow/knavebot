@@ -16,14 +16,16 @@ module Knavebot
 
     def configure_commands
       client.command([:r, :roll]) do |evt, *args|
-        result = Command::Roll.call(args)
-        evt << result
+        evt << Command::Roll.call(args)
       end
 
-      client.command([:ls, :list]) do |evt, *args|
-        result = Command::List.call(args)
-        evt << result
-      end
+      # client.command([:ls, :list]) do |evt, *args|
+      #   evt << Command::List.call(args)
+      # end
+
+      # client.command([:fate]) do |evt, *args|
+      #   evt << Command::Fate.call(args)
+      # end
 
       client.command([:h, :help]) do |evt|
         evt << "```"

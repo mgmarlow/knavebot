@@ -1,0 +1,6 @@
+{
+  "editor.formatOnSave": true,
+  "ruby.useBundler": true,
+  "ruby.useLanguageServer": true,
+  "ruby.format": "standard"
+}
