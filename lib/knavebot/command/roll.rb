@@ -1,6 +1,7 @@
 module Knavebot
   module Command
     class UnrecognizedValueError < StandardError; end
+
     class OperatorEvalError < StandardError; end
 
     class Roll
@@ -17,7 +18,7 @@ module Knavebot
         "+" => ->(a, b) { a + b },
         "-" => ->(a, b) { a - b },
         "/" => ->(a, b) do
-          raise OperatorEvalError.new('tried to divide by zero') if b == 0
+          raise OperatorEvalError.new("tried to divide by zero") if b == 0
 
           a / b
         end,
@@ -33,7 +34,7 @@ module Knavebot
       end
 
       def call
-        # TODO: show results of dice rolls as well
+        # TODO: show results of dice rolls as well (tally)
         evaluate
       end
 
@@ -46,7 +47,7 @@ module Knavebot
           if operator?(arg)
             fn = OPERATOR_MAP[arg]
 
-            result << fn.(*result.pop(fn.arity))
+            result << fn.call(*result.pop(fn.arity))
           elsif roll?(arg)
             result << roll_value(arg)
           else
@@ -65,6 +66,7 @@ module Knavebot
         arg.match(/\d*d\d/i)
       end
 
+      # TODO: Move this into a separate class w/ tally
       def roll_value(arg)
         n, sides = arg.split("d")
         n = n.empty? ? 1 : int_value(n)
@@ -77,7 +79,7 @@ module Knavebot
 
       def int_value(arg)
         Integer(arg)
-      rescue ArgumentError => e
+      rescue ArgumentError
         raise UnrecognizedValueError.new("did not recognize #{arg}")
       end
 

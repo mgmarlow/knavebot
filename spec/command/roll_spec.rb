@@ -55,7 +55,7 @@ RSpec.describe Knavebot::Command::Roll do
     let(:args) { ["20", "/", "0"] }
 
     it "should calculate expression" do
-      expect{ cmd.call(args) }.to raise_error(/tried to divide by zero/)
+      expect { cmd.call(args) }.to raise_error(/tried to divide by zero/)
     end
   end
 
