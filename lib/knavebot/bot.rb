@@ -19,13 +19,9 @@ module Knavebot
         evt << Command::Roll.call(args)
       end
 
-      client.command(:fate) do |evt, *args|
+      client.command([:f, :fate]) do |evt, *args|
         evt << Command::Fate.call(args)
       end
-
-      # client.command([:ls, :list]) do |evt, *args|
-      #   evt << Command::List.call(args)
-      # end
 
       client.command([:h, :help]) do |evt|
         evt << "```"
@@ -34,6 +30,10 @@ module Knavebot
         evt << "#{@prefix}roll <expression>"
         evt << "      Roll dice and calculate expressions."
         evt << "      Example: `#{@prefix}r 2d8 + 10`"
+        evt << ""
+        evt << "#{@prefix}fate [+|- modifier]"
+        evt << "      Ask the Oracle a question and consult with your fate."
+        evt << "      Example: `#{@prefix}fate` => 'Yes, but ...'"
         evt << ""
         evt << "```"
       end
