@@ -19,12 +19,12 @@ module Knavebot
         evt << Command::Roll.call(args)
       end
 
+      client.command(:fate) do |evt, *args|
+        evt << Command::Fate.call(args)
+      end
+
       # client.command([:ls, :list]) do |evt, *args|
       #   evt << Command::List.call(args)
-      # end
-
-      # client.command([:fate]) do |evt, *args|
-      #   evt << Command::Fate.call(args)
       # end
 
       client.command([:h, :help]) do |evt|
