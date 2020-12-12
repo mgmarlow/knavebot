@@ -1,28 +1,18 @@
 # Knavebot
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/knavebot`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
-
-## Installation
-
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'knavebot'
-```
-
-And then execute:
-
-    $ bundle install
-
-Or install it yourself as:
-
-    $ gem install knavebot
+[Add knavebot to your server](https://discord.com/oauth2/authorize?client_id=777590604459671562&scope=bot&permissions=514112)
 
 ## Usage
 
-TODO: Write usage instructions here
+```
+!roll <expression>
+      Roll dice and calculate expressions.
+      Example: `!r 2d8 + 10`
+
+!fate [+|- modifier]
+      Ask the Oracle a question and consult with your fate.
+      Example: `!fate + 5`
+```
 
 ## Development
 
@@ -37,4 +27,4 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/[USERN
 
 ## License
 
-The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
+The gem is available as open source under the terms of the [GPL 3.0 License](https://opensource.org/licenses/GPL-3.0).

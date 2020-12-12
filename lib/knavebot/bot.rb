@@ -23,6 +23,14 @@ module Knavebot
         evt << Command::Fate.call(args)
       end
 
+      # client.command([:c, :create]) do |evt, *args|
+      #   evt << Command::Create.call(args)
+      # end
+
+      # client.command([:dm]) do |evt, *args|
+      #   evt << Command::DungeonMaster.call(args)
+      # end
+
       client.command([:h, :help]) do |evt|
         evt << "```"
         evt << "knavebot usage:"
@@ -33,8 +41,9 @@ module Knavebot
         evt << ""
         evt << "#{@prefix}fate [+|- modifier]"
         evt << "      Ask the Oracle a question and consult with your fate."
-        evt << "      Example: `#{@prefix}fate` => 'Yes, but ...'"
+        evt << "      Example: `#{@prefix}fate + 5`"
         evt << ""
+        evt << "Open source now and forever: https://github.com/mgmarlow/knavebot"
         evt << "```"
       end
     end
