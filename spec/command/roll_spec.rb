@@ -11,14 +11,6 @@ RSpec.describe Knavebot::Command::Roll do
     end
   end
 
-  describe "arguments are compressed" do
-    let(:args) { ["20+", "12"] }
-
-    it "should return error" do
-      expect(cmd.call).to eq("Couldn't evaluate roll (did not recognize '20+').")
-    end
-  end
-
   describe "addition" do
     let(:args) { ["20", "+", "12"] }
 

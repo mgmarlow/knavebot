@@ -1,5 +1,5 @@
 RSpec.describe Knavebot::Command::Fate do
-  let(:args)        { [] }
+  let(:args) { [] }
   let(:mock_oracle) { double("Oracle") }
   let(:fate_result) { :yes }
 

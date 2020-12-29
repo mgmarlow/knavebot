@@ -9,9 +9,9 @@ RSpec.shared_examples "fate" do |input, expected|
 end
 
 RSpec.describe Knavebot::Oracle do
-  let(:roll)       { 2 }
-  let(:modifier)   { 0 }
-  let(:mock_bag)   { double("DiceBag") }
+  let(:roll) { 2 }
+  let(:modifier) { 0 }
+  let(:mock_bag) { double("DiceBag") }
   subject(:oracle) { described_class.new(modifier) }
 
   describe "#determine" do
