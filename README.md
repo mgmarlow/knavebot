@@ -16,17 +16,27 @@
 
 ## Development
 
+Clone the repo
+
 ```
-# Clone the repo
 gh repo clone mgmarlow/knavebot
+```
 
-# Install dependencies
+Install dependencies
+
+```
 bin/setup
+```
 
-# Run tests
+Run tests
+
+```
 bundle exec rake rspec
+```
 
-# Run linter
+Run linter
+
+```
 bundle exec standardrb --fix
 ```
 
