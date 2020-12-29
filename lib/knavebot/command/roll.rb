@@ -6,27 +6,27 @@ module Knavebot
       include ParseHelper
 
       PRECEDENCE = {
-        "+" => 1,
-        "-" => 1,
-        "/" => 2,
-        "*" => 2,
-        ")" => 3,
-        "(" => 3
+        add: 1,
+        sub: 1,
+        div: 2,
+        mul: 2,
+        cparen: 3,
+        oparen: 3
       }
 
       OPERATOR_MAP = {
-        "+" => ->(a, b) { a + b },
-        "-" => ->(a, b) { a - b },
-        "/" => ->(a, b) do
+        add: ->(a, b) { a + b },
+        sub: ->(a, b) { a - b },
+        mul: ->(a, b) { a * b },
+        div: ->(a, b) do
           raise OperatorEvalError.new("tried to divide by zero") if b == 0
 
           a / b
-        end,
-        "*" => ->(a, b) { a * b }
+        end
       }
 
       def initialize(args)
-        @args = args
+        @tokens = Knavebot::Tokenizer.new(args).tokenize
         @tallies = []
       end
 
@@ -55,54 +55,56 @@ module Knavebot
       def evaluate
         result = []
 
-        postfix_args.each do |arg|
-          if operator?(arg)
-            fn = OPERATOR_MAP[arg]
+        postfix_tokens.each do |token|
+          if operator?(token)
+            fn = OPERATOR_MAP[token.type]
 
             result << fn.call(*result.pop(fn.arity))
-          elsif roll?(arg)
-            bag = DiceBag.new(arg)
+          elsif roll?(token)
+            bag = DiceBag.new(token.value)
             result << bag.roll
             @tallies << bag.tally
           else
-            result << int_value(arg)
+            result << int_value(token.value)
           end
         end
 
         result.first
       end
 
-      def operator?(arg)
-        !!OPERATOR_MAP[arg]
+      def operator?(token)
+        !!OPERATOR_MAP[token.type]
       end
 
-      def roll?(arg)
-        arg.match(/\d*d\d/i)
+      def roll?(token)
+        token.type == :roll
       end
 
-      def postfix_args
+      def postfix_tokens
         output = []
         operators = []
 
-        @args.each do |arg|
-          case arg
-          when "+", "-", "*", "/"
-            until operators.empty? || operators[-1] == "(" || PRECEDENCE[operators[-1]] <= PRECEDENCE[arg]
+        @tokens.each do |token|
+          case token.type
+          when :add, :sub, :mul, :div
+            until operators.empty? ||
+                operators[-1].type == :oparen ||
+                PRECEDENCE[operators[-1].type] <= PRECEDENCE[token.type]
               output << operators.pop
             end
 
-            operators << arg
-          when "("
-            operators << arg
-          when ")"
-            until operators[-1] == "(" || operators.empty?
+            operators << token
+          when :oparen
+            operators << token
+          when :cparen
+            until operators[-1].type == :oparen || operators.empty?
               output << operators.pop
             end
 
             # Discard left paren
             operators.pop
           else
-            output << arg
+            output << token
           end
         end
 
