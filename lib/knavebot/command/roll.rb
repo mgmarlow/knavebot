@@ -26,7 +26,7 @@ module Knavebot
       }
 
       def initialize(args)
-        @tokens = Knavebot::Tokenizer.new(args).tokenize
+        @args = args
         @tallies = []
       end
 
@@ -35,6 +35,7 @@ module Knavebot
       end
 
       def call
+        @tokens = Knavebot::Tokenizer.new(@args).tokenize
         result = evaluate
 
         if @tallies.empty?
