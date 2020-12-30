@@ -80,6 +80,8 @@ module Knavebot
             @tallies << bag.tally
           elsif token.type == :identifier
             fn = IDENTIFIER_MAP[token.value]
+            raise "identifier #{token.value} not found" if fn.nil?
+
             # Identifiers currently exclude arithmetic
             return fn.call
           else
