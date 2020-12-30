@@ -15,11 +15,11 @@ module Knavebot
     private
 
     def configure_commands
-      client.command([:r, :roll]) do |evt, *args|
+      client.command(:roll, aliases: [:r]) do |evt, *args|
         evt << Command::Roll.call(args)
       end
 
-      client.command([:f, :fate]) do |evt, *args|
+      client.command(:fate, aliases: [:f]) do |evt, *args|
         evt << Command::Fate.call(args)
       end
 
@@ -31,7 +31,7 @@ module Knavebot
       #   evt << Command::DungeonMaster.call(args)
       # end
 
-      client.command([:h, :help]) do |evt|
+      client.command(:help, aliases: [:h]) do |evt|
         evt << "```"
         evt << "knavebot usage:"
         evt << ""

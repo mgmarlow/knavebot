@@ -12,16 +12,16 @@ module Knavebot
       [:sub, /-/],
       [:div, /\//],
       [:mul, /\*/]
-    ]
+      ].freeze
 
-    def initialize(args)
-      @line = args.join("")
+    def initialize(line)
+      @line = line
       @tokens = []
     end
 
     def tokenize
       until @line.empty?
-        @tokens << find_token
+        @tokens << tokenize_one_token
         @line = @line.strip
       end
 
@@ -30,15 +30,16 @@ module Knavebot
 
     private
 
-    def find_token
+    def tokenize_one_token
       TOKEN_TYPES.each do |type, re|
-        match = @line.match(/\A(#{re})/)
-        if match
-          value = match[1]
-          @line = @line[value.length..-1]
-          return Token.new(type, value)
-        end
+        next unless @line =~ /\A(#{re})/
+
+        value = $1
+        @line = @line[value.length..-1]
+        return Token.new(type, value)
       end
+
+      raise "bad token match: #{@line.inspect}"
     end
   end
 end

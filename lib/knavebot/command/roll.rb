@@ -35,7 +35,7 @@ module Knavebot
       end
 
       def call
-        @tokens = Knavebot::Tokenizer.new(@args).tokenize
+        @tokens = Knavebot::Tokenizer.new(@args.join("")).tokenize
         result = evaluate
 
         if @tallies.empty?

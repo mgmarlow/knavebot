@@ -3,11 +3,11 @@ RSpec.describe Knavebot::Command::Roll do
 
   subject(:cmd) { described_class.new(args) }
 
-  describe "arguments are exploded" do
-    let(:args) { ["20", "+", "12"] }
+  describe "bad arguments" do
+    let(:args) { ["asdf"] }
 
-    it "should calculate expression" do
-      expect(cmd.call).to eq(32)
+    it "should throw an error" do
+      expect(cmd.call).to eq("Couldn't evaluate roll (bad token match: \"asdf\").")
     end
   end
 
