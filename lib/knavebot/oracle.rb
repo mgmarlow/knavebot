@@ -1,27 +1,40 @@
 module Knavebot
   class Oracle
-    def initialize(modifier = 0)
-      @modifier = modifier
-    end
-
     def determine_fate
-      base_roll = DiceBag.new("2d6").roll
+      roll = DiceBag.new("2d6").roll
 
-      case base_roll + @modifier
-      when -Float::INFINITY..2
-        :no_and
+      case roll
+      when 2
+        "No! Furthermore, ..."
       when 3..4
-        :no
+        "No."
       when 5..6
-        :no_but
+        "No, but ..."
       when 7
         determine_fate
       when 8..9
-        :yes_but
+        "Yes, but ..."
       when 10..11
-        :yes
-      when 12..Float::INFINITY
-        :yes_and
+        "Yes."
+      when 12
+        "Yes! Furthermore, ..."
+      end
+    end
+
+    def determine_reaction
+      roll = DiceBag.new("d12").roll
+
+      reaction = case roll
+      when 2
+        "Hostile"
+      when 3..5
+        "Unfriendly"
+      when 6..8
+        "Unsure"
+      when 9..11
+        "Talkative"
+      when 12
+        "Helpful"
       end
     end
   end

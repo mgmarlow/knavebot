@@ -86,7 +86,7 @@ RSpec.describe Knavebot::Command::Roll do
       let(:args) { ["d20"] }
 
       it "should calculate expression" do
-        expect(cmd.call).to eq("17 (17)")
+        expect(cmd.call).to eq("(17)\n**Total**: 17")
       end
     end
 
@@ -94,7 +94,7 @@ RSpec.describe Knavebot::Command::Roll do
       let(:args) { ["4d20"] }
 
       it "should calculate expression" do
-        expect(cmd.call).to eq("50 (17, 11, 2, 20)")
+        expect(cmd.call).to eq("(17, 11, 2, 20)\n**Total**: 50")
       end
     end
 
@@ -102,7 +102,7 @@ RSpec.describe Knavebot::Command::Roll do
       let(:args) { ["4d20", "+", "2d8"] }
 
       it "should calculate expression" do
-        expect(cmd.call).to eq("54 (17, 11, 2, 20), (3, 1)")
+        expect(cmd.call).to eq("(17, 11, 2, 20), (3, 1)\n**Total**: 54")
       end
     end
   end

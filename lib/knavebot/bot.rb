@@ -19,15 +19,12 @@ module Knavebot
         evt << Command::Roll.call(args)
       end
 
-      client.command(:fate, aliases: [:f]) do |evt, *args|
-        evt << Command::Fate.call(args)
-      end
-
-      # client.command([:c, :create]) do |evt, *args|
+      # TODOs:
+      # client.command(:create, aliases: [:c]) do |evt, *args|
       #   evt << Command::Create.call(args)
       # end
 
-      # client.command([:dm]) do |evt, *args|
+      # client.command(:dm) do |evt, *args|
       #   evt << Command::DungeonMaster.call(args)
       # end
 
@@ -39,9 +36,10 @@ module Knavebot
         evt << "      Roll dice and calculate expressions."
         evt << "      Example: `#{@prefix}r 2d8 + 10`"
         evt << ""
-        evt << "#{@prefix}fate [+|- modifier]"
-        evt << "      Ask the Oracle a question and consult with your fate."
-        evt << "      Example: `#{@prefix}fate + 5`"
+        evt << "      Special rolls"
+        evt << "      -------------"
+        evt << "      - Roll reactions with `!r $reaction`"
+        evt << "      - Roll fates with `!r $fate`"
         evt << ""
         evt << "Open source now and forever: https://github.com/mgmarlow/knavebot"
         evt << "```"

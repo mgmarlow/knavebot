@@ -25,6 +25,19 @@ module Knavebot
         end
       }
 
+      IDENTIFIER_MAP = {
+        "$reaction" => ->() {
+          reaction = Oracle.new.determine_reaction
+
+          "**Result**: #{reaction}"
+        },
+        "$fate" => ->() {
+          fate = Oracle.new.determine_fate
+
+          "**Result**: #{fate}"
+        },
+      }
+
       def initialize(args)
         @args = args
         @tallies = []
@@ -45,7 +58,7 @@ module Knavebot
             .map { |t| "(#{t.join(", ")})" }
             .join(", ")
 
-          "#{result} #{formatted_tallies}"
+          "#{formatted_tallies}\n**Total**: #{result}"
         end
       rescue => e
         "Couldn't evaluate roll (#{e.message})."
@@ -65,6 +78,10 @@ module Knavebot
             bag = DiceBag.new(token.value)
             result << bag.roll
             @tallies << bag.tally
+          elsif token.type == :identifier
+            fn = IDENTIFIER_MAP[token.value]
+            # Identifiers currently exclude arithmetic
+            return fn.call
           else
             result << int_value(token.value)
           end

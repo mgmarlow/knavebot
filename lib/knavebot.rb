@@ -7,8 +7,8 @@ require "knavebot/parse_helper"
 require "knavebot/tokenizer"
 require "knavebot/dice_bag"
 require "knavebot/oracle"
+
 require "knavebot/command/roll"
-require "knavebot/command/fate"
 
 module Knavebot
   class Error < StandardError; end
