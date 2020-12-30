@@ -24,7 +24,7 @@ module Knavebot
     def determine_reaction
       roll = DiceBag.new("d12").roll
 
-      reaction = case roll
+      case roll
       when 2
         "Hostile"
       when 3..5

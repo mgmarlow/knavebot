@@ -12,7 +12,7 @@ module Knavebot
       [:sub, /-/],
       [:div, /\//],
       [:mul, /\*/]
-      ].freeze
+    ].freeze
 
     def initialize(line)
       @line = line

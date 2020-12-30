@@ -26,16 +26,16 @@ module Knavebot
       }
 
       IDENTIFIER_MAP = {
-        "$reaction" => ->() {
+        "$reaction" => -> {
           reaction = Oracle.new.determine_reaction
 
           "**Result**: #{reaction}"
         },
-        "$fate" => ->() {
+        "$fate" => -> {
           fate = Oracle.new.determine_fate
 
           "**Result**: #{fate}"
-        },
+        }
       }
 
       def initialize(args)
