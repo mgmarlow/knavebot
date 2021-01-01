@@ -17,6 +17,7 @@ module Knavebot
     def configure_commands
       client.command(:roll, aliases: [:r]) do |evt, *args|
         result = Command::Roll.call(args)
+        # evt.message.reply
 
         evt.send_embed do |embed|
           embed.title = "@#{evt.author.username} rolling the 🎲"
