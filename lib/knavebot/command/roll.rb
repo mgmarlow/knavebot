@@ -1,6 +1,7 @@
 module Knavebot
   module Command
     class OperatorEvalError < StandardError; end
+    RollResult = Struct.new(:total, :rolls)
 
     class Roll
       include ParseHelper
@@ -51,17 +52,7 @@ module Knavebot
         @tokens = Knavebot::Tokenizer.new(@args.join("")).tokenize
         result = evaluate
 
-        if @tallies.empty?
-          result
-        else
-          formatted_tallies = @tallies
-            .map { |t| "(#{t.join(", ")})" }
-            .join(", ")
-
-          "#{formatted_tallies}\n**Total**: #{result}"
-        end
-      rescue => e
-        "Couldn't evaluate roll (#{e.message})."
+        RollResult.new(result, @tallies)
       end
 
       private
