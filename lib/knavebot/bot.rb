@@ -16,7 +16,13 @@ module Knavebot
 
     def configure_commands
       client.command(:roll, aliases: [:r]) do |evt, *args|
-        evt << Command::Roll.call(args)
+        # evt.send_message("@#{evt.author.username}", message_reference: evt.message.id)
+        evt.send_embed do |embed|
+          embed.title = 'foo'
+          # embed.author =  evt.author
+          embed.description = "foo bar"
+        end
+        # evt.send_embed(Command::Roll.call(args))
       end
 
       # TODOs:
