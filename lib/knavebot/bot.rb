@@ -16,13 +16,15 @@ module Knavebot
 
     def configure_commands
       client.command(:roll, aliases: [:r]) do |evt, *args|
-        # evt.send_message("@#{evt.author.username}", message_reference: evt.message.id)
+        result = Command::Roll.call(args)
+
         evt.send_embed do |embed|
-          embed.title = 'foo'
-          # embed.author =  evt.author
-          embed.description = "foo bar"
+          embed.title = "@#{evt.author.username} rolling the 🎲"
+          embed.description = "#{args.join("")} roll(s): #{result.rolls.join(", ")}\n\n**Total: #{result.total}**"
+          embed.color = "#0099ff"
         end
-        # evt.send_embed(Command::Roll.call(args))
+      rescue => e
+        "Couldn't evaluate roll (#{e.message})"
       end
 
       # TODOs:
