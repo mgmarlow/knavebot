@@ -94,7 +94,7 @@ RSpec.describe Knavebot::Command::Roll do
       it "should return RollResult" do
         got = cmd.call
         expect(got.total).to eq(17)
-        expect(got.rolls).to eq([[17]])
+        expect(got.rolls).to eq("d20 (17)")
       end
     end
 
@@ -104,7 +104,7 @@ RSpec.describe Knavebot::Command::Roll do
       it "should calculate expression" do
         got = cmd.call
         expect(got.total).to eq(50)
-        expect(got.rolls).to eq([[17, 11, 2, 20]])
+        expect(got.rolls).to eq("4d20 (17, 11, 2, 20)")
       end
     end
 
@@ -114,7 +114,7 @@ RSpec.describe Knavebot::Command::Roll do
       it "should calculate expression" do
         got = cmd.call
         expect(got.total).to eq(54)
-        expect(got.rolls).to eq([[17, 11, 2, 20], [3, 1]])
+        expect(got.rolls).to eq("4d20 (17, 11, 2, 20) + 2d8 (3, 1)")
       end
     end
   end
