@@ -52,7 +52,15 @@ module Knavebot
         @tokens = Knavebot::Tokenizer.new(@args.join("")).tokenize
         result = evaluate
 
-        RollResult.new(result, @tallies)
+        tallied_expression = @tokens.map do |t|
+          if t.type == :roll
+            "#{t.value} (#{@tallies.shift.join(", ")})"
+          else
+            t.value
+          end
+        end
+
+        RollResult.new(result, tallied_expression.join(" "))
       end
 
       private
