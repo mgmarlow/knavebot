@@ -41,7 +41,6 @@ module Knavebot
 
       def initialize(args)
         @args = args
-        @tallies = []
       end
 
       def self.call(*args)
@@ -50,15 +49,15 @@ module Knavebot
 
       def call
         @tokens = Knavebot::Tokenizer.new(@args.join("")).tokenize
-        result = evaluate
+        result, tallies = evaluate
 
-        tallied_expression = @tokens.map do |t|
+        tallied_expression = @tokens.map { |t|
           if t.type == :roll
-            "#{t.value} (#{@tallies.shift.join(", ")})"
+            "#{t.value} (#{tallies.shift.join(", ")})"
           else
             t.value
           end
-        end
+        }
 
         RollResult.new(result, tallied_expression.join(" "))
       end
@@ -67,6 +66,7 @@ module Knavebot
 
       def evaluate
         result = []
+        tallies = []
 
         postfix_tokens.each do |token|
           if operator?(token)
@@ -76,7 +76,7 @@ module Knavebot
           elsif roll?(token)
             bag = DiceBag.new(token.value)
             result << bag.roll
-            @tallies << bag.tally
+            tallies << bag.tally
           elsif token.type == :identifier
             fn = IDENTIFIER_MAP[token.value]
             raise "identifier #{token.value} not found" if fn.nil?
@@ -88,7 +88,7 @@ module Knavebot
           end
         end
 
-        result.first
+        [result.first, tallies]
       end
 
       def operator?(token)
