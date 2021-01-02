@@ -6,12 +6,19 @@
 
 ```
 !roll <expression>
-      Roll dice and calculate expressions.
-      Example: `!r 2d8 + 10`
+  Roll dice and calculate expressions.
+  Example: `!r 2d8 + 10`
 
-!fate [+|- modifier]
-      Ask the Oracle a question and consult with your fate.
-      Example: `!fate + 5`
+  Special rolls
+  -------------
+  - Roll reactions with `!r $reaction`
+  - Roll fates with `!r $fate`
+
+!about
+  About Knavebot.
+
+!help
+  View help.
 ```
 
 ## Development
@@ -43,7 +50,6 @@ bundle exec standardrb --fix
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/mgmarlow/knavebot.
-
 
 ## License
 

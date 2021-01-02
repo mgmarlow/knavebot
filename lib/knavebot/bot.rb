@@ -37,20 +37,35 @@ Result: #{result.rolls}
       #   evt << Command::DungeonMaster.call(args)
       # end
 
+      client.command(:about) do |evt|
+        evt.send_embed do |embed|
+          embed.color = "0099ff"
+          embed.title = "Knavebot"
+          embed.description = """
+A TTRPG bot for Knave and other old-school RPGs.
+
+Open source now and forever: https://github.com/mgmarlow/knavebot
+          """
+        end
+      end
+
       client.command(:help, aliases: [:h]) do |evt|
+        evt << "`!help` me use knavebot:"
         evt << "```"
-        evt << "knavebot usage:"
-        evt << ""
         evt << "#{@prefix}roll <expression>"
-        evt << "      Roll dice and calculate expressions."
-        evt << "      Example: `#{@prefix}r 2d8 + 10`"
+        evt << "  Roll dice and calculate expressions."
+        evt << "  Example: `#{@prefix}r 2d8 + 10`"
         evt << ""
-        evt << "      Special rolls"
-        evt << "      -------------"
-        evt << "      - Roll reactions with `!r $reaction`"
-        evt << "      - Roll fates with `!r $fate`"
+        evt << "  Special rolls"
+        evt << "  -------------"
+        evt << "  - Roll reactions with `!r $reaction`"
+        evt << "  - Roll fates with `!r $fate`"
         evt << ""
-        evt << "Open source now and forever: https://github.com/mgmarlow/knavebot"
+        evt << "#{@prefix}about"
+        evt << "  About Knavebot."
+        evt << ""
+        evt << "#{@prefix}help"
+        evt << "  View help."
         evt << "```"
       end
     end
