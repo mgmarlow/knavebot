@@ -27,16 +27,8 @@ module Knavebot
       }
 
       IDENTIFIER_MAP = {
-        "$reaction" => -> {
-          reaction = Oracle.new.determine_reaction
-
-          "**Result**: #{reaction}"
-        },
-        "$fate" => -> {
-          fate = Oracle.new.determine_fate
-
-          "**Result**: #{fate}"
-        }
+        "$reaction" => -> { Oracle.new.determine_reaction },
+        "$fate" => -> { Oracle.new.determine_fate }
       }
 
       def initialize(args)
@@ -52,7 +44,8 @@ module Knavebot
         result, tallies = evaluate
 
         tallied_expression = @tokens.map { |t|
-          if t.type == :roll
+          case t.type
+          when :roll, :identifier
             "#{t.value} (#{tallies.shift.join(", ")})"
           else
             t.value
@@ -82,7 +75,11 @@ module Knavebot
             raise "identifier #{token.value} not found" if fn.nil?
 
             # Identifiers currently exclude arithmetic
-            return fn.call
+            identifier_result, identifier_roll = fn.call
+
+            # Wrap roll result in two extra arrays for formatting
+            # (TODO) improve the tally formatting
+            return [identifier_result, [[identifier_roll]]]
           else
             result << int_value(token.value)
           end

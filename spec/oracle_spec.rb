@@ -3,7 +3,7 @@ RSpec.shared_examples "fate" do |input, expected|
     let(:roll) { input }
 
     it "should return fate" do
-      expect(oracle.determine_fate).to eq(expected)
+      expect(oracle.determine_fate).to eq([expected, input])
     end
   end
 end
@@ -13,7 +13,7 @@ RSpec.shared_examples "reaction" do |input, expected|
     let(:roll) { input }
 
     it "should return reaction" do
-      expect(oracle.determine_reaction).to eq(expected)
+      expect(oracle.determine_reaction).to eq([expected, input])
     end
   end
 end
@@ -66,7 +66,9 @@ RSpec.describe Knavebot::Oracle do
         end
 
         it "should return fate" do
-          expect(oracle.determine_fate).to eq("Yes, but ...")
+          got_fate, got_roll = oracle.determine_fate
+          expect(got_fate).to eq("Yes, but ...")
+          expect(got_roll).to eq(8)
         end
       end
     end

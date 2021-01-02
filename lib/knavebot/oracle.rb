@@ -3,7 +3,7 @@ module Knavebot
     def determine_fate
       roll = DiceBag.new("2d6").roll
 
-      case roll
+      result = case roll
       when 2
         "No! Furthermore, ..."
       when 3..4
@@ -11,7 +11,7 @@ module Knavebot
       when 5..6
         "No, but ..."
       when 7
-        determine_fate
+        return determine_fate
       when 8..9
         "Yes, but ..."
       when 10..11
@@ -19,12 +19,14 @@ module Knavebot
       when 12
         "Yes! Furthermore, ..."
       end
+
+      [result, roll]
     end
 
     def determine_reaction
       roll = DiceBag.new("d12").roll
 
-      case roll
+      result = case roll
       when 2
         "Hostile"
       when 3..5
@@ -36,6 +38,8 @@ module Knavebot
       when 12
         "Helpful"
       end
+
+      [result, roll]
     end
   end
 end
